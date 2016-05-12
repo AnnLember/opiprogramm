@@ -1,0 +1,155 @@
+html {
+	height: 100% ;
+}
+
+body {
+    background-color: #6fb98f;
+	background: linear-gradient(#6fb98f, white);
+	height: 100%;
+	background-repeat: no-repeat;
+}
+
+h1 {
+    text-align: center;
+}
+h1.vasak {
+	text-align: left;
+	margin-top: 0px;
+}
+
+p {  
+    font-size: 25px;
+	text-align: center;
+}
+p.thick {
+    font-weight: bold;
+}
+
+img {
+    width: 80px ;
+	height: 100px;
+}
+
+video {
+	width: 65%;
+	height: 40%;
+}
+
+ 
+ input[type=text] {
+    padding:5px; 
+    border:2px solid #ccc; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input[type=text]:focus {
+    border-color:#004445;
+}
+
+input[type=submit] {
+    padding:5px 15px; 
+    background:#2c7873; 
+	border:2px solid #021c1e; 
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+	width: 150px; 
+	height: 40px;
+	text-transform: uppercase;
+	color: white;
+}
+input[type=submit]:hover {
+    border-color:#021c1e;
+	background:#004445; 
+}
+.menu {
+	text-align: left;
+	float: left;
+	max-width: 17%; 
+}
+.footer {
+ position: relative;
+  clear:both;
+  text-align: center;
+  font-size: 15px;
+}
+.keskel {
+float: left;
+width: 55%;
+position: relative;
+background-color: white;
+-webkit-border-radius: 10px;
+    border-radius: 10px;
+max-height: 75% ;
+}
+.jutt{
+float: left;
+text-align: center;
+max-width: 65%;
+position: relative;
+}
+.tagasiside{
+	float: left;
+	width: 28%; 
+	margin-left:0px;
+	
+}
+.container {
+width: auto;
+position: relative;
+}
+
+button.accordion {
+	font-size: 18px;
+	padding:5px 5px; 
+    border:2px solid #021c1e; 
+    background-color: #2c7873;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 70%;
+    text-align: left;
+    transition: 0.4s;
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+	width: 200px; 
+	height: 60px;
+
+
+}
+button.accordion.active, button.accordion:hover {
+    background-color: #004445;
+}
+div.panel.show {
+    display: block;
+}
+div.panel {
+    padding: 0 18px;
+    display: none;
+}
+.imgWrap {
+  position: relative;
+  height: 100px;
+  width: 80px;
+}
+
+.imgDescription {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+
+
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility opacity 0.2s;
+ }
+ 
+ .imgWrap:hover .imgDescription {
+  visibility: visible;
+  opacity: 1;
+}
