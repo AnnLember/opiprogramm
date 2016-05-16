@@ -1,12 +1,12 @@
 <html>
 <head>
-<h1 ALIGN=center>Valesti vastatud sõrmendid<h1/>
+<h1 ALIGN=center>Valesti vastatud viiped<h1/>
 <?php
 $valed = array();
 $koik = array();
 $protsent = array();
 $kuu = date("Y-m");
-$avafail = fopen("$kuu.txt", "r");
+$avafail = fopen("sonad$kuu.txt", "r");
 if ($avafail) {
     while (($rida = fgets($avafail)) !== false) {
         $rida = str_replace("\n", "", $rida);
@@ -23,7 +23,6 @@ if ($avafail) {
 	arsort($loe_v);
 	echo "Loe valed: ";
 	print_r($loe_v);
-
 } else {
     // error opening the file.
 } 

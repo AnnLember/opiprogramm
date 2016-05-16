@@ -3,8 +3,11 @@ html {
 }
 
 body {
-    background-color: #6fb98f;
-	background: linear-gradient(#6fb98f, white);
+    background-color: #6fb98f; /*brauseritele mis ei toeta gradientsi */
+	background: linear-gradient(#6fb98f, white); /* gradiets standard */
+    background: -webkit-linear-gradient(#6fb98f, white); /* Safari versioonide 5.1 kuni 6.0 jaoks */
+    background: -o-linear-gradient(#6fb98f, white); /*  Opera verstioonide 11.1 kuni 12.0 jaoks*/
+    background: -moz-linear-gradient(#6fb98f, white); /* Firefoxi versioonide 3.6 kuni 15 jaoks */
 	height: 100%;
 	background-repeat: no-repeat;
 }
