@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="kujundus.css">
 <title>Sõrmendid ja viiped</title>
 <?php
+//valitakse järjend, millest küsimusi esitama hakatakse
 mb_internal_encoding("UTF-8");
 $teema = $_GET['teema'];
 include 'andmed.php';
@@ -51,7 +52,7 @@ if ($teema == 'perekond') {
 	$sonad=$tutvumine;
 	$mang="Tutvumine";
  }
-
+//sõnades olevad täpitähed asendatakse muude märkidega, et hiljem sõnadele vastavad videofailid programmi kaustast ekraanile kuvada.
 $tapid= array("Õ","Ä","Ö","Ü","Š","Ž");
 $margid= array("6","2","8","y","3","4");
 $vsonad=array();
@@ -59,6 +60,7 @@ foreach ($sonad as $uus) {
 	$uuss = str_replace($tapid, $margid, $uus);
 	array_push($vsonad, $uuss);
 }
+//otsitakse järjendi hulgast sõna, mida kasutajalt küsida. Tingimuseks on, et sõna pole enne küsitud.
 $arrlength = count($sonad);
 $leitud= False;
 while ($leitud == False) {
@@ -81,6 +83,7 @@ $tekst2="";
 $tekst3="";
 $tekst4="";
 $tekst5="";
+//kui on vastus esitatud siis salvestatakse andmed logifaili ja kontrollitakse vastuse õigsust ning uuendatakse punktiarvestust
    if( $_POST["vastus"] ) {
    $fail = fopen("logid/ssonad$kuu.txt", "a") or die("Ei suuda faili avada!");
    fwrite($fail,$_POST["vastus"] . "|" . $_POST["oigevastus"].  "\n");
@@ -89,6 +92,7 @@ $tekst5="";
    $koik=$_POST["koikpunktid"];
    $koik++;
    $kasutatud = substr($_POST["kasutatud"],-($arrlength*6));
+      //kontrollitakse vastuse õigsust, seejuures muudetakse kasutaja vastus väiketähtedeks, et see ei mõjutaks kontrolli.
 	  if (mb_strtolower($_POST["vastus"]) == mb_strtolower($_POST["oigevastus"])) {
 	  $punkt++;
 	  $tekst1 .= "<p> Õige vastus! </p>"  ;
@@ -110,10 +114,10 @@ $kasutatud .= "|".$sona."|";
 <?php include 'menu.php';?>
 </div>
 <div class="keskel">
-<h1>Mis sõnale vastab see sõrmendite järjend?</h1>
 <?php
 if ($koik < 10) {
 ?> 
+<h1>Mis sõnale vastab see sõrmendite järjend?</h1>
 <form action = "mang2.php?teema=<?=$teema?>" method = "POST">
 <p class="pildid">
 <?php
@@ -124,6 +128,8 @@ for( $i = 0; $i < $strlen; $i++ ) {
 ?>
 </p>
 <?php
+//säilitatakse mängija punktid, küsitud küsimuste arv, õige vastus, õigele vastusele vastava videofaili nimi (ilma täpitähtedetad)
+// ning kasutatud küsimused.
 echo '<INPUT TYPE="hidden" NAME="punktid" VALUE="'.$punkt.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="koikpunktid" VALUE="'.$koik.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="oigevastus" VALUE="'.$sona.'" >  ' ;
@@ -141,12 +147,9 @@ Küsimused: <?= $koik+1?> / 10
 <p>
 Skoor: <?= round(($punkt / $koik) * 100) ;?> %
 </p>
-</div>
 <?php 
 } else {
-?>
-<div class="keskel">
-<?php
+//peale 10-t küsimust ilmub küsimuste kasti kasutajale lõplik tagasiside
 echo "<p> Mäng läbi!</p> <p> Sinu skoor: " .$punkt. "/" .$koik. "</p>" ;
 }
 ?>

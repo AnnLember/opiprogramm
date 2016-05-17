@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="kujundus.css">
 <title>Kas tunned viipeid?</title>
 <?php
+//valitakse järjend, millest küsimusi esitama hakatakse
 mb_internal_encoding("UTF-8");
 $teema = $_GET['teema'];
 include 'andmed.php';
@@ -58,6 +59,7 @@ foreach ($sonad as $uus) {
 	$uuss = str_replace($tapid, $margid, $uus);
 	array_push($vsonad, $uuss);
 }
+//otsitakse järjendi hulgast sõna, mida kasutajalt küsida. Tingimuseks on, et sõna pole enne küsitud.
 $arrlength = count($sonad);
 $leitud= False;
 while ($leitud == False) {
@@ -76,6 +78,7 @@ $valed="";
 $tekst1= "";
 $tekst2="";
 $tekst3="";
+//kui on vastus esitatud siis salvestatakse andmed logifaili ja kontrollitakse vastuse õigsust ning uuendatakse punktiarvestust
    if( $_POST["vastus"] ) {
    $fail = fopen("logid/sonad$kuu.txt", "a") or die("Ei suuda faili avada!");
    fwrite($fail,$_POST["vastus"] . "|" . $_POST["oigevastus"].  "\n");
@@ -85,6 +88,7 @@ $tekst3="";
    $koik++;
    $kasutatud = substr($_POST["kasutatud"],-($arrlength*4));
    $valed = $_POST["valed"];
+   //kontrollitakse vastuse õigsust, seejuures muudetakse kasutaja vastus väiketähtedeks, et see ei mõjutaks kontrolli.
 	  if (mb_strtolower($_POST["vastus"]) == mb_strtolower($_POST["oigevastus"])) {
 	  $tekst1 .= "<p> Õige vastus! </p>"  ;
 	  $punkt++;
@@ -105,10 +109,10 @@ $kasutatud .= "|" .$sona. "|";
 <?php include 'menu.php';?>
 </div>
 <div class="keskel">
-<h1>Mis sõna on viibeldud?<h1/>
 <?php
 if ($koik < 10) {
 ?> 
+<h1>Mis sõna on viibeldud?<h1/>
 <form action = "mang3.php?teema=<?=$teema?>" method = "POST">
 <p>
 <video controls autoplay>
@@ -116,6 +120,7 @@ if ($koik < 10) {
 Your browser does not support the video tag.
 </video>
 <?php
+//säilitatakse mängija punktid, küsitud küsimuste arv, õige vastus, kasutatud küsimused ning valesti vastatud küsimused
 echo '<INPUT TYPE="hidden" NAME="punktid" VALUE="'.$punkt.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="koikpunktid" VALUE="'.$koik.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="oigevastus" VALUE="'.$sona.'" >  ' ;
@@ -137,6 +142,7 @@ Skoor: <?= round(($punkt / $koik) * 100) ;?> % <br>
 </p>
 <?php 
 } else {
+//peale 10-t küsimust ilmub küsimuste kasti kasutajale lõplik tagasiside
 echo "<p> Mäng läbi! </p> <p> Sinu skoor: " .$punkt. "/" .$koik. "</p>" ;
 }
 ?>

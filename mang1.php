@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="kujundus.css">
 <title>Sõrmendtähestik</title>
 <?php
+//valitakse failis andmed.php oletavetes sõnastikest üks
 mb_internal_encoding("UTF-8");
 include 'andmed.php';
 $tase = $_GET['tase'];
@@ -28,17 +29,19 @@ if ($tase =='') {
 	$mang="Tähed A-Y";
 }
 
-
+//moodustatakse sõnastike võtmetest eraldi järjend, et nende hulgast valida küsitav täht
 $keys = array_keys($kysimused);
 $arrlength = count($keys);
 $leitud= False;
 while ($leitud == False) {
 	$proovi = rand(0,$arrlength-1);
-	if ((strpos($_POST["kasutatud"], $keys[$proovi]) === False) && $keys[$proovi] !== $voti) {
+	//kontrollitakse, et sama tähte pole enne küsimusena kasutatud
+	if (strpos($_POST["kasutatud"], $keys[$proovi]) === False) {
 		$voti = $keys[$proovi];
 		$leitud = True;
 	}	
 }
+//valitakse võtmete järjendist vastusevariandid
 shuffle($keys);
 $vastused = array();
 array_push($vastused, $voti);
@@ -62,7 +65,7 @@ $kasutatud = "";
 $tekst1= "";
 $tekst2="";
 $tekst3="";
-
+//kui on vastus esitatud siis salvestatakse andmed logifaili ja kontrollitakse vastuse õigsust ning uuendatakse punktiarvestust
    if( $_POST["vastus"] ) {
    $fail = fopen("logid/$kuu.txt", "a") or die("Ei suuda faili avada!");
    fwrite($fail,$_POST["vastus"] . "|" . $_POST["oigevastus"]. "|" .$_POST["variandid"]. "\n");
@@ -72,7 +75,6 @@ $tekst3="";
    $koik++;
    $kasutatud =  substr($_POST["kasutatud"],-($arrlength/2));
    $valed = $_POST["valed"];
-
 	  if ($_POST["vastus"] == $_POST["oigevastus"]) {
 	  $tekst1 .= "<p> Õige vastus! </p>"  ;
 	  $punkt++;
@@ -106,16 +108,20 @@ if ($koik < 10 ) {
 <p><img src="sormendid/<?= $pilt ?>" alt="sormendA"/></p>
 <p>
 <?php
+//säilitatakse mängija punktid, küsitud küsimuste arv, õige vastus ning kasutatud küsimused.
 echo '<INPUT TYPE="hidden" NAME="punktid" VALUE="'.$punkt.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="koikpunktid" VALUE="'.$koik.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="oigevastus" VALUE="'.$vastused[0].'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="kasutatud" VALUE="'.$kasutatud.'" >  ' ;
+
+//kuvatakse ekraanile 4 vastusevarianti suvalises järjekorras
 shuffle($vastused);
 $variandid = "";
 foreach ($vastused as $vastus) {
 echo '<INPUT TYPE="radio" NAME="vastus" VALUE="'.$vastus.'" onclick="luba()">'.$vastus. ' ';
 $variandid .= $vastus;
 }
+//säilitatakse kuvatud vastusevariandid ning kasutaja poolt valesti vastatud küsimused
 echo '<INPUT TYPE="hidden" NAME="variandid" VALUE="'.$variandid.'" >  ' ;
 echo '<INPUT TYPE="hidden" NAME="valed" VALUE="'.$valed.'" >  ' ;
 ?>
@@ -140,7 +146,9 @@ Skoor: <?= round(($punkt / $koik) * 100) ;?> %
 } else {
 ?>
 <?php
+//peale 10-t küsimust ilmub küsimuste kasti kasutajale lõplik tagasiside
 echo "<p>Mäng läbi! </p> <p> Sinu skoor: " .$punkt. "/" .$koik. "</p>" ;
+//peale skoori näidatakse kasutajale ka valesti vastatus sõrmentide pilte
 if ($strlen > 0) {
 	echo "<p> Neid sõrmendeid ei tundnud Sa ära: </p>";
 	for( $i = 0; $i < $strlen +1; $i++ ) {
